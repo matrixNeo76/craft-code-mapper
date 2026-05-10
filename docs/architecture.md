@@ -2,7 +2,27 @@
 
 ## Overview
 
-**craft-code-mapper** is a standalone code analysis tool that integrates with **craft-memory** to build a knowledge graph of your codebase. It extracts structural information (classes, functions, methods, imports, call graph) from source code and stores it as memories in craft-memory's SQLite database.
+**craft-code-mapper** is a **standalone, framework-agnostic** code analysis tool.
+
+It has **two main outputs**:
+
+1. **CLI/API output** — Can analyze code and return results directly (classes, functions, call graph) without any external dependency
+2. **craft-memory integration** — When running in MCP mode, stores analysis results as memories in craft-memory's knowledge graph
+
+### How it works with craft-memory
+
+```
+Source Code → craft-code-mapper → craft-memory → Knowledge Graph
+     ↓              ↓                ↓              ↓
+  .py/.js/.ts    CLI/MCP/API    remember()    search_memory()
+                                link_memories()  get_relations()
+```
+
+- **craft-code-mapper** extracts code structure (classes, functions, imports, call graph)
+- **craft-memory** stores and queries the knowledge graph
+- They are separate but complementary tools
+
+> **Note:** If you only need code analysis (without knowledge graph storage), use the CLI or Python API directly — craft-memory is not required.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -49,6 +69,90 @@
 │  "Show call graph for function X"                           │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+## Framework Compatibility
+
+### Supported Integrations
+
+| Use Case | Framework | Status |
+|----------|-----------|--------|
+| MCP Server | Craft Agents OSS | ✅ Tested |
+| MCP Server | Claude Desktop | ✅ Compatible |
+| MCP Server | Cursor AI | ✅ Compatible |
+| MCP Server | LangChain Agents | ✅ Compatible |
+| MCP Server | Custom MCP clients | ✅ Compatible |
+| Python API | Any Python project | ✅ Standalone |
+| CLI | Any terminal | ✅ Standalone |
+
+### How to Integrate
+
+#### Craft Agents OSS
+```json
+{
+  "slug": "code-mapper",
+  "type": "mcp",
+  "mcp": {
+    "command": "craft-code-mapper",
+    "args": ["serve"]
+  }
+}
+```
+
+#### Claude Desktop (claude_desktop_config.json)
+```json
+{
+  "mcpServers": {
+    "code-mapper": {
+      "command": "craft-code-mapper",
+      "args": ["serve"]
+    }
+  }
+}
+```
+
+#### LangChain
+```python
+from langchain_mcp_adapters.client import MultiServerMCPClient
+
+client = MultiServerMCPClient({
+    "code-mapper": {
+        "command": "craft-code-mapper",
+        "args": ["serve"]
+    }
+})
+
+# Access tools
+tools = client.get_tools()  # scan_code, analyze_file
+```
+
+#### Cursor AI
+Add to Cursor's MCP settings (Settings → MCP → Add Server):
+```json
+{
+  "mcpServers": {
+    "code-mapper": {
+      "command": "craft-code-mapper",
+      "args": ["serve"]
+    }
+  }
+}
+```
+
+#### Standalone CLI (No framework)
+```bash
+pip install craft-code-mapper
+craft-code-mapper scan ./myproject
+```
+
+#### Python API (No framework)
+```python
+from craft_code_mapper.analyzers import python_ast
+
+result = python_ast.extract_file("/path/to/file.py")
+print(result['nodes'])
+```
+
+---
 
 ## Why This Architecture?
 
