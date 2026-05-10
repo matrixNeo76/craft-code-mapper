@@ -1,0 +1,27 @@
+[project]
+name = "craft-code-mapper"
+version = "0.2.0"
+description = "AST-based code analyzer for Craft Memory — extracts code structure and stores it as a knowledge graph"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[fastmcp]>=1.0.0",
+    "httpx>=0.27.0",
+    "tree-sitter>=0.20.0",
+    "tree-sitter-javascript",
+    "tree-sitter-typescript",
+]
+
+[project.scripts]
+craft-code-mapper = "craft_code_mapper.cli:main"
+
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
