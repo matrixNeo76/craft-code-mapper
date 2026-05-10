@@ -14,6 +14,15 @@
 - **Knowledge graph** — saves classes, functions, methods, imports, and call graph to craft-memory
 - **24 passing tests** — fully tested and documented
 
+## 📖 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [README.md](README.md) | Project overview and quick start |
+| [docs/guide.md](docs/guide.md) | Complete user guide with examples |
+| [docs/architecture.md](docs/architecture.md) | System design and integration |
+| [docs/cli-reference.md](docs/cli-reference.md) | CLI command reference |
+
 ## 🚀 Quick Start
 
 ```bash
@@ -164,23 +173,13 @@ craft-code-mapper/
 ├── pyproject.toml           # Package configuration
 ├── README.md                # This file
 ├── LICENSE                  # MIT License
+├── docs/                    # Documentation
+│   ├── guide.md             # User guide
+│   ├── architecture.md      # System design
+│   └── cli-reference.md     # CLI reference
 ├── assets/
 │   └── icon.svg             # Project icon
-├── src/craft_code_mapper/
-│   ├── __init__.py          # Package init (exports __version__)
-│   ├── cli.py               # CLI entry point
-│   ├── server.py            # MCP server (FastMCP stdio)
-│   ├── scanner.py           # Directory scanner + memory save
-│   ├── memory_client.py     # HTTP client for craft-memory
-│   └── analyzers/
-│       ├── __init__.py      # BaseAnalyzer interface
-│       ├── python_ast.py    # Python stdlib ast analyzer
-│       └── javascript.py    # tree-sitter JS/TS analyzer
-└── tests/
-    ├── test_python_ast.py   # Python analyzer tests
-    ├── test_javascript.py   # JS/TS analyzer tests
-    └── test_scanner.py      # Scanner tests
-```
+├── src/craft_code_mapper/   # Source code
 
 ## 🔨 Development
 
