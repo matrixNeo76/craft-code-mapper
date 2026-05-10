@@ -47,14 +47,14 @@ pip install -e .
 ### Dependencies
 
 | Package | Required | Purpose |
-|---------|----------|---------|
+|---------|:--------:|---------|
 | `mcp[fastmcp]` | ✅ | MCP server framework |
 | `httpx` | ✅ | HTTP client for craft-memory |
 | `tree-sitter` | ✅ | Core tree-sitter library |
-| `tree-sitter-javascript` | Recommended | JavaScript analysis |
-| `tree-sitter-typescript` | Recommended | TypeScript analysis |
+| `tree-sitter-javascript` | ✅ | JavaScript analysis |
+| `tree-sitter-typescript` | ✅ | TypeScript analysis |
 
-> **Note:** Python analysis works without tree-sitter packages (uses stdlib `ast`).
+> **Note:** Python analysis works standalone (uses stdlib `ast`). Tree-sitter packages are required for JavaScript/TypeScript support.
 
 ## 📖 Usage
 
